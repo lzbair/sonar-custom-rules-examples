@@ -41,27 +41,16 @@ public class MyJavaRulesDefinitionTest {
 
     assertThat(repository.name()).isEqualTo("MyCompany Custom Repository");
     assertThat(repository.language()).isEqualTo("java");
-    assertThat(repository.rules()).hasSize(RulesList.getChecks().size());
+    assertThat(repository.rules()).hasSize(MyRulesList.getChecks().size());
 
     assertRuleProperties(repository);
-    assertParameterProperties(repository);
     assertAllRuleParametersHaveDescription(repository);
   }
 
-  private void assertParameterProperties(Repository repository) {
-    // TooManyLinesInFunctionCheck
-    Param max = repository.rule("AvoidAnnotation").param("name");
-    assertThat(max).isNotNull();
-    assertThat(max.defaultValue()).isEqualTo("Inject");
-    assertThat(max.description()).isEqualTo("Name of the annotation to avoid, without the prefix @, for instance 'Override'");
-    assertThat(max.type()).isEqualTo(RuleParamType.STRING);
-  }
-
   private void assertRuleProperties(Repository repository) {
-    Rule rule = repository.rule("AvoidAnnotation");
+    Rule rule = repository.rule("AvoidMutableMember");
     assertThat(rule).isNotNull();
-    assertThat(rule.name()).isEqualTo("Title of AvoidAnnotation");
-    assertThat(rule.debtRemediationFunction().type()).isEqualTo(Type.CONSTANT_ISSUE);
+    assertThat(rule.name()).isEqualTo("Mutable object members are not allowed");
     assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
   }
 
